@@ -1,0 +1,14 @@
+{
+  "name": "whirl",
+  "version": "0.1.0",
+  "description": "'minimal curried iterators'",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec test.js"
+  },
+  "author": "Nick Bottomley",
+  "license": "MIT",
+  "dependencies": {
+    "curry": "^1.2.0"
+  }
+}
