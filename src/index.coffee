@@ -28,8 +28,13 @@ filter = (cb, obj) ->
 
 reduce = (cb, result, obj) ->
   typeCheck cb, obj
-  arr = if Array.isArray obj then obj else Object.keys obj
-  result = cb result, obj[key], key for key in arr
+  keys = 
+    if Array.isArray obj
+      map ((_, i) -> i), obj
+    else 
+      Object.keys obj
+  result = result(obj) if typeof result is "function"
+  result = cb(result, obj[key], key) for key in keys
   result
 
 module.exports =
