@@ -1,9 +1,9 @@
 {
   "name": "whirl",
-  "version": "0.1.0",
-  "repository" : { 
-    "type" : "git",
-    "url" : "http://github.com/nickb1080/whirl.git"
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nickb1080/whirl.git"
   },
   "description": "'minimal curried iterators'",
   "main": "index.js",
