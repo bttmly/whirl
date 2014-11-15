@@ -4,7 +4,7 @@ Curried, object-accepting, data-last versions of `map`, `each`, `filter` and `re
 
 ### Methods
 
-#### `**map**(Function **callback**, Object | Array **data**) => Array | Object`
+#### `map(Function callback, Object | Array data) => Array | Object`
 `map()` invokes an operation once on each itm in a collection, and collects the return values in a collection of the same type (i.e. mapping an array produces an array, likewise for objects).
 
 **Array**
