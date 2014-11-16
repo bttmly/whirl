@@ -1,6 +1,6 @@
 # whirl [![Build Status](https://travis-ci.org/nickb1080/whirl.svg?branch=master)](https://travis-ci.org/nickb1080/whirl)
 
-Curried, object-accepting, data-last versions of `map`, `each`, `filter` and `reduce`. 
+Curried, object-accepting, data-last versions of `map`, `each`, `filter` and `reduce`. Just pieces of [fast.js](https://github.com/codemix/fast.js) with [curry](https://github.com/dominictarr/curry).
 
 ### Methods
 
