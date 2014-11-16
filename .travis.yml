@@ -2,3 +2,6 @@ language: node_js
 node_js:
 - '0.11'
 - '0.10'
+before_script:
+- "rm -rf node_modules/fast.js"
+- "git clone git clone https://github.com/codemix/fast.js.git node_modules/fast.js"
