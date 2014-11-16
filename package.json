@@ -15,8 +15,7 @@
   "author": "Nick Bottomley",
   "license": "MIT",
   "dependencies": {
-    "curry": "^1.2.0",
-    "fast.js": "^0.1.0"
+    "curry": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^1.10.0",
