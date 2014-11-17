@@ -8,12 +8,12 @@ typeCheck = (cb, obj) ->
   m = []
   m.push("Value #{cb} is not a function.") unless typeof cb is "function"
   m.push("Value #{obj} is not an object.") unless Object(obj) is obj
-  return if m.length then m.join("\n") else null
+  throw new TypeError m.join "\n" if m.length
 
 # doing thisContext this way ensures currying works as expected (context is optional)
 # and that it is performant under V8 per (argument optimization)
 map = (cb, obj) ->
-  throw new TypeError(m) if m if (m = typeCheck cb, obj)
+  typeCheck cb, obj
   thisContext = arguments[2] if arguments.length > 2
   return if thisContext
     fastMap obj, cb, thisContext
@@ -35,6 +35,8 @@ filter = (cb, obj) ->
 reduce = (cb, initial, obj) ->
   typeCheck cb, obj
   thisContext = arguments[3] if arguments.length > 3
+  # allow currying with initial-creating functions such as (-> {})
+  initial = initial obj if typeof initial is "function"
   return if thisContext
     fastReduce obj, cb, initial, thisContext
   else
