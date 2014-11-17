@@ -35,7 +35,8 @@ filter = (cb, obj) ->
 reduce = (cb, initial, obj) ->
   typeCheck cb, obj
   thisContext = arguments[3] if arguments.length > 3
-  # allow currying with initial-creating functions such as (-> {})
+  # allow currying with initial-creating functions such as (-> {} or Array constructor)
+  # initial-creating functions shouldn't need arguments, that's what reduce is for anyway
   initial = do initial if typeof initial is "function"
   return if thisContext
     fastReduce obj, cb, initial, thisContext
