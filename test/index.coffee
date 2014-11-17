@@ -160,10 +160,46 @@ describe "#filter", ->
 
 
 describe "#reduce", ->
+  by_id = (result, item) ->
+    result[item.id] = item
+    result
+
+  things = [
+    thing: "a"
+    id: "x1"
+  ,
+    thing: "b"
+    id: "x2"
+  ,
+    thing: "c"
+    id: "x3"
+  ,
+    thing: "d"
+    id: "x4"
+  ]
 
   describe "array", ->
     it "reduces an array", ->
       reduce(sum, 0, arr).should.equal 6
+
+    it "uses initial() if initial is a function", ->
+      index_by_id = reduce by_id, Object
+      result = index_by_id(things)
+      result.should.deep.equal
+        x1:
+          thing: "a"
+          id: "x1"
+        x2:
+          thing: "b"
+          id: "x2"
+        x3:
+          thing: "c"
+          id: "x3"
+        x4:
+          thing: "d"
+          id: "x4"
+
+
 
 
   describe "object", ->

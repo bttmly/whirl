@@ -36,7 +36,7 @@ reduce = (cb, initial, obj) ->
   typeCheck cb, obj
   thisContext = arguments[3] if arguments.length > 3
   # allow currying with initial-creating functions such as (-> {})
-  initial = initial obj if typeof initial is "function"
+  initial = do initial if typeof initial is "function"
   return if thisContext
     fastReduce obj, cb, initial, thisContext
   else
