@@ -4,7 +4,7 @@ partial = (fn, args...) ->
   (more...) ->
     fn.apply @, args.concat more
 
-{map, each, filter, reduce} = require "../src/index.coffee"
+{map, each, filter, reduce, every, some} = require "../src/index.coffee"
 
 arr = undefined
 obj = undefined
@@ -199,7 +199,82 @@ describe "#reduce", ->
           thing: "d"
           id: "x4"
 
+  describe "object", ->
 
 
+
+describe "#every", ->
 
   describe "object", ->
+    it "everys an object's values", ->
+      is_string = (value) -> typeof value is "string"
+      good_obj = 
+        key1: "strA"
+        key2: "strB"
+        key3: "strC"
+        key4: "strD"
+
+      bad_obj =
+        key1: "strA"
+        key2: "strB"
+        key3: 10000
+        key4: "strC"
+
+      every(is_string, good_obj).should.equal true
+      every(is_string, bad_obj).should.equal false
+
+    it "everys an object's keys", ->
+      key_starts_with_a = (_, key) -> key.charAt(0) is "a"
+
+      good_obj = 
+        aardvark: true
+        aligator: true
+        anaconda: true
+        alpaca:   true
+
+      bad_obj =
+        armadillo: true
+        bear:      true
+        anteater:  true
+        antelope:  true
+
+      every(key_starts_with_a, good_obj).should.equal true
+      every(key_starts_with_a, bad_obj).should.equal false
+
+describe "#some", ->
+
+  describe "object", ->
+    it "somes an object's values", ->
+      is_string = (value) -> typeof value is "string"
+      good_obj = 
+        key1: 100000
+        key2: true
+        key3: []
+        key4: "str"
+
+      bad_obj =
+        key1: 100000
+        key2: true
+        key3: []
+        key4: {}
+
+      some(is_string, good_obj).should.equal true
+      some(is_string, bad_obj).should.equal false
+
+    it "somes an object's keys", ->
+      key_starts_with_a = (_, key) -> key.charAt(0) is "a"
+
+      good_obj = 
+        zebra:  true
+        fox:    true
+        alpaca: true
+        mouse:  true
+
+      bad_obj =
+        penguin:  true
+        bluebird: true
+        rhino:    true
+        squirrel: true
+
+      some(key_starts_with_a, good_obj).should.equal true
+      some(key_starts_with_a, bad_obj).should.equal false
