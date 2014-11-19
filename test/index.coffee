@@ -39,6 +39,13 @@ describe "currying", ->
       reduce(sum, 0).should.be.a "function"
       reduce(sum, 0, arr).should.be.a "number"
 
+    it "some", ->
+      some(is_odd).should.be.a "function"
+      some(is_odd)(arr).should.be.an "boolean"
+
+    it "every", ->
+      every(is_odd).should.be.a "function"
+      every(is_odd)(arr).should.be.an "boolean"
 
 describe "type checking", ->
   # todo check err messages in throw
@@ -66,14 +73,20 @@ describe "type checking", ->
     partial(reduce, sum, null, "p").should.throw()
     partial(reduce, sum, null, arr).should.not.throw()
 
+  it "some", ->
+    partial(some, "q", "r").should.throw()
+    partial(some, "s", arr).should.throw()
+    partial(some, sum, "t").should.throw()
+    partial(some, sum, arr).should.not.throw()
+
+  it "filter", ->
+    partial(filter, "u", "v").should.throw()
+    partial(filter, "w", arr).should.throw()
+    partial(filter, sum, "x").should.throw()
+    partial(filter, sum, arr).should.not.throw()
+
 
 describe "#map", ->
-
-  describe "curried", ->
-    it "is curried", ->
-      map(sum).should.be.a "function"
-      map(sum)(arr).should.be.an "array"
-      map(sum, arr).should.be.an "array"
 
   describe "array", ->
     it "maps an array", ->
@@ -138,13 +151,7 @@ describe "#each", ->
       concat_val().should.equal "value1value2value3"
 
 
-
-
 describe "#filter", ->
-
-  describe "curried", ->
-    it "is curried", ->
-
 
   describe "array", ->
     it "filters an array", ->
@@ -155,8 +162,6 @@ describe "#filter", ->
       (filter (value, key) ->
         key.indexOf(2) isnt -1 or value.indexOf(3) isnt -1
       , obj).should.deep.equal key2: "value2", key3: "value3"
-
-
 
 
 describe "#reduce", ->
@@ -200,10 +205,48 @@ describe "#reduce", ->
           id: "x4"
 
   describe "object", ->
+    frameworks =
+      django: "python",
+      flask: "python",
+      rails: "ruby",
+      sinatra: "ruby",
+      play: "scala",
+      express: "node.js",
+      hapi: "node.js",
+      laravel: "php"
+
+    index_by_value = reduce (result, value, key) ->
+      unless result[value]?
+        result[value] = []
+      result[value].push key
+      result
+    , Object
+
+    result = index_by_value(frameworks)
+    expected = 
+      "node.js": ["express", "hapi"]
+      "python": ["django", "flask"]
+      "ruby": ["rails", "sinatra"]
+      "scala": ["play"]
+      "php": ["laravel"]
+
+    result.should.deep.equal expected
 
 
 
 describe "#every", ->
+  
+  describe "array", ->
+    it "everys an array", ->
+      is_odd = (value) -> value % 2
+
+      arr_all_odd = [1, 3, 5, 7, 9, 11]
+      arr_some_odd = [1, 3, 5, 6, 7, 10]
+      arr_none_odd = [2, 4, 6, 8, 10, 12]
+
+      every(is_odd, arr_all_odd).should.equal true
+      every(is_odd, arr_some_odd).should.equal false
+      every(is_odd, arr_none_odd).should.equal false
 
   describe "object", ->
     it "everys an object's values", ->
@@ -242,6 +285,18 @@ describe "#every", ->
       every(key_starts_with_a, bad_obj).should.equal false
 
 describe "#some", ->
+
+  describe "array", ->
+    it "somes an array", ->
+      is_odd = (value) -> value % 2
+
+      arr_all_odd = [1, 3, 5, 7, 9, 11]
+      arr_some_odd = [1, 3, 5, 6, 7, 10]
+      arr_none_odd = [2, 4, 6, 8, 10, 12]
+
+      some(is_odd, arr_all_odd).should.equal true
+      some(is_odd, arr_some_odd).should.equal true
+      some(is_odd, arr_none_odd).should.equal false
 
   describe "object", ->
     it "somes an object's values", ->
